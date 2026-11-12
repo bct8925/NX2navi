@@ -811,6 +811,7 @@ static void copy_t2t(VkExec *ex, const p_copy_t2t *p) {
     Sub s, d;
     if (!sub_resolve(p->src, &p->sv, p->has_sv, &p->sr, 1, &s)) return;
     if (!sub_resolve(p->dst, &p->dv, p->has_dv, &p->dr, 1, &d)) return;
+    if (vk_dump_armed) vk_dump_xfer_images((const void *)s.img->image, (const void *)d.img->image);
     d.nz = s.nz;
     vk_gpu_gap_note(VK_GAP_COPY_T2T, (uint64_t)s.w * s.h);
     int same_size = s.w == d.w && s.h == d.h;
@@ -944,6 +945,7 @@ static void clear_tex(VkExec *ex, const p_clear_tex *p) {
     if (!t) return;
     Sub s;
     if (!sub_resolve(t, &p->view, p->has_view, &p->r, 1, &s)) return;
+    if (vk_dump_armed) vk_dump_xfer_images(NULL, (const void *)s.img->image);
     const VkTexImage *img = s.img;
     int is3d = img->type == VK_IMAGE_TYPE_3D;
     uint32_t lw = max1(img->width >> s.level), lh = max1(img->height >> s.level);

@@ -1051,6 +1051,12 @@ static void region_desc(const NVNcopyRegion *r, char *buf, size_t n) {
     snprintf(buf, n, "(%d,%d,%d %dx%dx%d)", r->xoffset, r->yoffset, r->zoffset, r->width, r->height, r->depth);
 }
 
+void vk_dump_xfer_images(const void *src, const void *dst) {
+    plat_mutex_lock(&rec_lock);
+    if (active()) fprintf(passes_f, "  images: src vkimage %p dst vkimage %p\n", src, dst);
+    plat_mutex_unlock(&rec_lock);
+}
+
 void vk_dump_copy(VkExec *ex, uint32_t op, const void *payload) {
     (void)ex;
     plat_mutex_lock(&rec_lock);

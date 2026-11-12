@@ -229,6 +229,9 @@ int vk_dump_mesh_begin(VkExec *ex);
 void vk_dump_mesh_end(VkExec *ex, int q);
 void vk_dump_dispatch(VkExec *ex, const GfxShader *cs, VkPipeline p, const VkPipeInfo *info, const p_dispatch *d);
 void vk_dump_copy(VkExec *ex, uint32_t op, const void *payload);   // before a copy or texture clear is replayed
+// The images a texture copy (src and dst) or a texture clear (dst; src NULL) resolved to, under the line vk_dump_copy
+// wrote: which entry at a shared address took the write (vk_exec_xfer.c copy_t2t, clear_tex).
+void vk_dump_xfer_images(const void *src, const void *dst);
 void vk_dump_present(uint64_t frame);    // vk_be_present: waits for the dump frame's copies and closes the logs
 
 // c0, the NVN driver constant bank of one stage (vk_exec_draw.c; NX2NAVI_FIX_C0=0 binds zeros instead): bank is
